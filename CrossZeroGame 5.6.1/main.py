@@ -1,13 +1,13 @@
 # Функция рисует поле игры
-def DrawField(matrix):
+def draw_field(matrix):
     print("   1 2 3")
     print(" a", *matrix[0], "\n", "b", *matrix[1], "\n", "c", *matrix[2])
     return False
 
 
 # Проверка на конец игры
-def ContinueTheGame(matrix):
-    def whoWon(field):
+def continue_the_game(matrix):
+    def who_on(field):
         if field == "X":
             print("\n", "PC wins")
         else:
@@ -15,21 +15,21 @@ def ContinueTheGame(matrix):
 
     for element in matrix:
         if element[0] == element[1] == element[2] != "#":
-            whoWon(element[0])
+            who_on(element[0])
             return False
 
     for i in range(3):
         if matrix[0][i] == matrix[1][i] == matrix[2][i] != "#":
-            whoWon(matrix[0][i])
+            who_on(matrix[0][i])
             return False
 
     # это диоганали
     if matrix[0][0] == matrix[1][1] == matrix[2][2] != "#":
-        whoWon(matrix[0][0])
+        who_on(matrix[0][0])
         return False
 
     if matrix[0][2] == matrix[1][1] == matrix[2][0] != "#":
-        whoWon(matrix[0][2])
+        who_on(matrix[0][2])
         return False
 
     for i in range(3):
@@ -42,10 +42,15 @@ def ContinueTheGame(matrix):
 
 
 # Функция обрабатывающая ход игрока
-def PlayerAction(matrix):
+def player_action(matrix):
     str_move = input("Lead your move ")
     i = "#"
     j = "#"
+
+    if len(str_move) > 2:
+        print("Enter the correct move")
+        return True
+
     if str_move[0].upper() == "A":
         j = 0
     elif str_move[0].upper() == "B":
@@ -70,7 +75,7 @@ def PlayerAction(matrix):
 
 
 # Функция хода компа
-def PCAction(matrix):
+def pc_action(matrix):
     # Это блок хода противника если он почти собрал столбец
     for i in range(3):
         length_row = ''.join(matrix[i]).count("O")
@@ -145,11 +150,11 @@ def PCAction(matrix):
 
 matrix_Cross_Zero = (["#", "#", "#"], ["#", "#", "#"], ["#", "#", "#"])
 
-DrawField(matrix_Cross_Zero)
+draw_field(matrix_Cross_Zero)
 
-while ContinueTheGame(matrix_Cross_Zero):
-    while PlayerAction(matrix_Cross_Zero):
+while continue_the_game(matrix_Cross_Zero):
+    while player_action(matrix_Cross_Zero):
         pass
-    PCAction(matrix_Cross_Zero)
+    pc_action(matrix_Cross_Zero)
     print("\n" * 2, "Current round")
-    DrawField(matrix_Cross_Zero)
+    draw_field(matrix_Cross_Zero)
